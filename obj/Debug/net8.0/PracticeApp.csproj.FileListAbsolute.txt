@@ -1,0 +1,15 @@
+C:\Users\conno_avr\Documents\Code Learning\c# Code\bin\Debug\net8.0\PracticeApp.exe
+C:\Users\conno_avr\Documents\Code Learning\c# Code\bin\Debug\net8.0\PracticeApp.deps.json
+C:\Users\conno_avr\Documents\Code Learning\c# Code\bin\Debug\net8.0\PracticeApp.runtimeconfig.json
+C:\Users\conno_avr\Documents\Code Learning\c# Code\bin\Debug\net8.0\PracticeApp.dll
+C:\Users\conno_avr\Documents\Code Learning\c# Code\bin\Debug\net8.0\PracticeApp.pdb
+C:\Users\conno_avr\Documents\Code Learning\c# Code\obj\Debug\net8.0\PracticeApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\conno_avr\Documents\Code Learning\c# Code\obj\Debug\net8.0\PracticeApp.AssemblyInfoInputs.cache
+C:\Users\conno_avr\Documents\Code Learning\c# Code\obj\Debug\net8.0\PracticeApp.AssemblyInfo.cs
+C:\Users\conno_avr\Documents\Code Learning\c# Code\obj\Debug\net8.0\PracticeApp.csproj.CoreCompileInputs.cache
+C:\Users\conno_avr\Documents\Code Learning\c# Code\obj\Debug\net8.0\PracticeApp.dll
+C:\Users\conno_avr\Documents\Code Learning\c# Code\obj\Debug\net8.0\refint\PracticeApp.dll
+C:\Users\conno_avr\Documents\Code Learning\c# Code\obj\Debug\net8.0\PracticeApp.pdb
+C:\Users\conno_avr\Documents\Code Learning\c# Code\obj\Debug\net8.0\PracticeApp.genruntimeconfig.cache
+C:\Users\conno_avr\Documents\Code Learning\c# Code\obj\Debug\net8.0\ref\PracticeApp.dll
+C:\Users\conno_avr\Documents\Code Learning\c# Code\obj\Debug\net8.0\PracticeApp.sourcelink.json

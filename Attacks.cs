@@ -6,6 +6,10 @@ namespace PracticeApp
     {
         private Character player;
         private Random random;
+        
+        public int staminaCostLight = 2;
+        public int staminaCostHeavy = 4;
+        public int staminaCostBlind = 1;
 
        
         public Attacks(Character player)
@@ -16,31 +20,55 @@ namespace PracticeApp
 
         public void LightAttack(Character target)
         {
-            int baseDamage = this.player.AttackPower;
-            int damage = CalculateAttackRange(baseDamage, 10, 40);
+            if (HasEnoughStamina(staminaCostLight))
+                {
+                    int baseDamage = this.player.AttackPower;
+                    player.Stamina -= staminaCostLight;
 
-            Console.WriteLine($"{this.player.Name} uses Light Attack on {target.Name}!");
-            Console.WriteLine($"Damage dealt: {damage}");
-            
-            target.TakeDamage(damage);
-        }
+                    Console.WriteLine($"{this.player.Name} uses Light Attack on {target.Name}! Stamina Remaining: {player.Stamina}");
+                    int damage = CalculateAttackRange(baseDamage, 10, 40);
+                    Console.WriteLine($"Damage dealt: {damage}");
+
+                    target.TakeDamage(damage);
+            }
+            else
+                {
+                    Console.WriteLine("Not Enough Stamina! You need rest!");
+                }
+    }
 
         public void HeavyAttack(Character target)
         {
-            int baseDamage = this.player.AttackPower * 2;
-            int damage = CalculateAttackRange(baseDamage, 10, 20);
-            
-            Console.WriteLine($"{this.player.Name} uses Heavy Attack on {target.Name}!");
-            Console.WriteLine($"Damage dealt: {damage}");
-            
-            target.TakeDamage(damage);
+            if (HasEnoughStamina(staminaCostHeavy))
+            {
+                int baseDamage = this.player.AttackPower * 2;
+                player.Stamina -= staminaCostHeavy;
+
+                Console.WriteLine($"{this.player.Name} uses Heavy Attack on {target.Name}! Stamina Remaining: {player.Stamina}");
+                int damage = CalculateAttackRange(baseDamage, 10, 20);
+                Console.WriteLine($"Damage dealt: {damage}");
+
+                target.TakeDamage(damage);
+            }
+            else
+            {
+                Console.WriteLine("Not Enough Stamina! You need rest!");
+            }
         }
 
         public void Blind(Character target)
         {
-            int effect = this.player.Defence - 1;
-            Console.WriteLine($"{this.player.Name} Blind {target.Name}!");
-            Console.WriteLine($"Defence Down By: {effect}");
+            if (HasEnoughStamina(staminaCostBlind))
+            {
+                int effect = this.player.Defence - 1;
+                player.Stamina -= staminaCostBlind;
+                Console.WriteLine($"{this.player.Name} Blind {target.Name}! Stamina Remaining: {player.Stamina}");
+                Console.WriteLine($"Defence Down By: {effect}");
+            }
+            else
+            {
+                Console.WriteLine("Not Enough Stamina! You need rest!");
+            }
         }
 
         private int CalculateAttackRange(int baseDamage, int critChance, int missChance)
@@ -60,5 +88,13 @@ namespace PracticeApp
 
             return baseDamage;
         }
+
+        public bool HasEnoughStamina(int staminaCost)
+        {
+            if(staminaCost > player.Stamina) return false;
+            else return true;
+
+        }
     }
 }
+

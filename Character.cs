@@ -6,20 +6,24 @@ namespace PracticeApp
     {
         public string Name {get; set;}
         public int Health {get; set;}
+        public int MaxHealth {get; set;}
         public int AttackPower {get; set;}
         public int Defence {get; set;}
+        public int Stamina {get; set;}
 
-        public Character(string name, int health, int attackPower, int defence)
+        public Character(string name, int health, int attackPower, int defence, int stamina)
         {
             this.Name = name;
             this.Health = health;   
             this.AttackPower = attackPower;
             this.Defence = defence;
+            this.Stamina = stamina;
+            
         }
 
         public void DisplayStats()
         {
-            Console.WriteLine($"Name: {Name}\nHealth: {Health}\nAttack Power: {AttackPower}\nDefence: {Defence}");
+            Console.WriteLine($"Name: {Name}\nHealth: {Health}\nAttack Power: {AttackPower}\nDefence: {Defence}\nStamina: {Stamina}");
         }
         
         public void TakeDamage(int damage)
@@ -32,7 +36,7 @@ namespace PracticeApp
             
             if(Health < 0) Health = 0;  
             
-            Console.WriteLine($"{Name} takes {trueDamage} damage! Health: {Health}");
+            Console.WriteLine($"{Name} takes {trueDamage} damage! Health Remaining: {Health}");
         }
 
        
