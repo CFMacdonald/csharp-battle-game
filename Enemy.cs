@@ -19,14 +19,16 @@ namespace PracticeApp
 
         public static Character CreateSmallRobot()
         {
-            return CreateEnemy("Small Robot", 10, 5, 2, 0);
+            return CreateEnemy("Small Robot", 5, 3, 2, 0);
         }
 
         public void BasicAttack(Character target)
         {
             int damage = this.newEnemy.AttackPower;
+            Console.ForegroundColor = ConsoleColor.Red; 
             Console.WriteLine($"{this.newEnemy.Name} attacks {target.Name}!");
             Console.WriteLine($"Damage dealt: {damage}");
+            Console.ResetColor();
             target.TakeDamage(damage);
         }
 

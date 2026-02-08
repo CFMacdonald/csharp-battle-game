@@ -62,6 +62,7 @@ namespace PracticeApp
             {
                 int effect = this.player.Defence - 1;
                 player.Stamina -= staminaCostBlind;
+                target.Defence -= effect;
                 Console.WriteLine($"{this.player.Name} Blind {target.Name}! Stamina Remaining: {player.Stamina}");
                 Console.WriteLine($"Defence Down By: {effect}");
             }

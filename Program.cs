@@ -21,8 +21,10 @@ namespace PracticeApp
             gameManager.DelayStatment(1000);
 
             Enemy enemy1 = new Enemy(Enemy.CreateSmallRobot());
-            gameManager.TryToRunAway(enemy1);
+            gameManager.TryToRun(enemy1);
             gameManager.DelayStatment(2000);
+
+            Console.WriteLine("Debug: EscapeBattleWorked!");
           
             
         } 

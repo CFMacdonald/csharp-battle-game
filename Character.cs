@@ -39,6 +39,14 @@ namespace PracticeApp
             Console.WriteLine($"{Name} takes {trueDamage} damage! Health Remaining: {Health}");
         }
 
-       
+        public static void Heal(Character target, int healAmount)
+        {
+            int healResult = target.Health + healAmount; 
+            if(healResult > target.MaxHealth) healResult = target.MaxHealth;
+            target.Health = healResult;  
+
+            Console.WriteLine($"{target.Name} healed for {healAmount} Health! Current Health: {target.Health}");
+        }
+      
     }
 }
