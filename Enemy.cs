@@ -1,10 +1,12 @@
 using System;
+using System.Runtime.CompilerServices;
 
 namespace PracticeApp
 {
     class Enemy
     {
         public Character newEnemy;
+        Inventory playerInventory;
 
         public Enemy(Character newEnemy) 
         {
@@ -17,9 +19,24 @@ namespace PracticeApp
             return newEnemy;
         }
 
-        public static Character CreateSmallRobot()
+        public static Character CreateClanker()
         {
-            return CreateEnemy("Small Robot", 5, 3, 2, 0);
+            return CreateEnemy("Clanker", 10, 4, 2, 0);
+        }
+
+        public static Character CreateMech()
+        {
+            return CreateEnemy("Mech", 15, 5, 5, 0);
+        }
+
+        public static Character CreateNanobot()
+        {
+            return CreateEnemy("Nanobot", 5, 10, 1, 0);
+        }
+
+        public static Character CreateBionicOverlord()
+        {
+            return CreateEnemy("Bionic Overlord", 35, 9, 5, 0);
         }
 
         public void BasicAttack(Character target)
@@ -32,6 +49,40 @@ namespace PracticeApp
             target.TakeDamage(damage);
         }
 
-        
+        public void SpecialAttack(Character target)
+        {
+            int damage = this.newEnemy.AttackPower *2;
+            
+            Console.ForegroundColor = ConsoleColor.Red; 
+            Console.WriteLine($"{this.newEnemy.Name} uses its Special Attack!!");
+            Console.WriteLine($"Damage dealt: {damage}, Defence and Stamina Drained!");
+            Console.ResetColor();
+            target.DrainDefence(1);
+            target.DrainStamina(2);
+            target.TakeDamage(damage);
+        }
+
+        public void NanobotSpecialAttack(Character target, Inventory playerInventory)
+        {
+            if(playerInventory.HasItemOfType(ItemType.HealthPotion))  
+            {
+                Item stolen = playerInventory.GetItemByType(ItemType.HealthPotion); 
+                playerInventory.RemoveItem(stolen); 
+                Console.WriteLine($"The nanobot steals a health potion and uses it to heal itself! Health: {this.newEnemy.Health + 5}");
+                this.newEnemy.Health += 5;
+                BasicAttack(target);
+            }
+            else
+            {
+                Console.WriteLine("The nanobot tries to steal, but you have no health potions!");
+                BasicAttack(target);
+            }
+        }
+
+        public void SkipNextTurn(Character target)
+        {
+            BasicAttack(target);
+        }  
+    
     }
 }

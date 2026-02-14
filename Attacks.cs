@@ -8,8 +8,8 @@ namespace PracticeApp
         private Random random;
         
         public int staminaCostLight = 2;
-        public int staminaCostHeavy = 4;
-        public int staminaCostBlind = 1;
+        public int staminaCostHeavy = 3;
+        public int staminaCostBlind = 2;
 
        
         public Attacks(Character player)
@@ -60,11 +60,13 @@ namespace PracticeApp
         {
             if (HasEnoughStamina(staminaCostBlind))
             {
-                int effect = this.player.Defence - 1;
+                int effect = 2;
                 player.Stamina -= staminaCostBlind;
                 target.Defence -= effect;
+                target.AttackPower -= effect;
                 Console.WriteLine($"{this.player.Name} Blind {target.Name}! Stamina Remaining: {player.Stamina}");
                 Console.WriteLine($"Defence Down By: {effect}");
+                Console.WriteLine($"Attack Power Down By: {effect}");
             }
             else
             {

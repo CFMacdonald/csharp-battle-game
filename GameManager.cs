@@ -15,13 +15,16 @@ namespace PracticeApp
         Random random = new Random();
 
         bool escapeSuccess = false;
+        public bool skipPlayerNextTurn = false;
         
 
         public void StartGame()
         {
-            Console.WriteLine("Hello! Do you want to start?");
+           
 
             bool validInput = false;
+
+            StartScreen();
 
             while (!validInput)
             {
@@ -66,29 +69,39 @@ namespace PracticeApp
             return playerStats;
         }
 
-        public void StartBattleSequence(Enemy enemy)
-        {
-            currentBattleEnemy = enemy;
+    public void StartBattleSequence(Enemy enemy)
+    {
+        currentBattleEnemy = enemy;
 
-            playerAttack = new Attacks(player);
+        playerAttack = new Attacks(player);
+        escapeSuccess = false;
 
-            Console.WriteLine("\n--- INITIATING COMBAT ---");
-            DelayStatment(2000);
-            currentBattleEnemy.newEnemy.DisplayStats();
+        Console.WriteLine("\n--- INITIATING COMBAT ---");
+        DelayStatment(2000);
+        currentBattleEnemy.newEnemy.DisplayStats();
 
-            while (currentBattleEnemy.newEnemy.Health > 0 && player.Health > 0 && !escapeSuccess)
+        Console.WriteLine(currentBattleEnemy.newEnemy.Health + " " + player.Health);
+
+        while (currentBattleEnemy.newEnemy.Health > 0 && player.Health > 0 && !escapeSuccess)
             {
-                Console.WriteLine("-------------------------------------------------------------------------------------------------");
-                Console.WriteLine("What do you want to do?");
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine($"--- Total Stamina: {player.Stamina} ---");
-                Console.ResetColor();
-                Console.WriteLine($"1. Light Attack. Stamina Cost: {playerAttack.staminaCostLight}");
-                Console.WriteLine($"2. Heavy Attack. Stamina Cost: {playerAttack.staminaCostHeavy}");
-                Console.WriteLine($"3. Blind. Stamina Cost: {playerAttack.staminaCostBlind}");
-                Console.WriteLine("4. Rest");
-                Console.WriteLine("5. Display Inventory");
-                Console.WriteLine("6. Use Item");
+                if (skipPlayerNextTurn)
+                {
+                    Console.WriteLine($"{player.Name} is stunned and cannot move this turn!");
+                    skipPlayerNextTurn = false;
+                }
+                else
+                {
+                    Console.WriteLine("-------------------------------------------------------------------------------------------------");
+                    Console.WriteLine("What do you want to do?");
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine($"--- Total Stamina: {player.Stamina} ---");
+                    Console.ResetColor();
+                    Console.WriteLine($"1. Light Attack. Stamina Cost: {playerAttack.staminaCostLight}");
+                    Console.WriteLine($"2. Heavy Attack. Stamina Cost: {playerAttack.staminaCostHeavy}");
+                    Console.WriteLine($"3. Blind. Stamina Cost: {playerAttack.staminaCostBlind}");
+                    Console.WriteLine("4. Rest");
+                    Console.WriteLine("5. Display Inventory");
+                    Console.WriteLine("6. Use Item");
 
                 switch (Console.ReadLine())
                 {
@@ -104,8 +117,11 @@ namespace PracticeApp
                     case "4":
                         Console.WriteLine($"{player.Name} takes a moment to rest and recover stamina.");
                         player.Stamina += 5;
+                        player.Health += 2;
                         if (player.Stamina > 5) player.Stamina = 5;
+                        if (player.Health > player.MaxHealth) player.Health = player.MaxHealth;
                         Console.WriteLine($"Stamina Restored. Current Stamina: {player.Stamina}");
+                        Console.WriteLine($"Health slightly Restored. Current Health: {player.Health}");
                         break;
                     case "5":
                         inventory.DisplayInventory();
@@ -123,18 +139,72 @@ namespace PracticeApp
 
                 if (currentBattleEnemy.newEnemy.Health > 0)
                 {
+                ExecuteEnemyAttack();
+                Console.WriteLine("-------------------------------------------------------------------------------------------------");
+                }
+                }
+            } 
+            
+            if (escapeSuccess)
+            {
+                EndBattleSequence();
+            }
+             else
+            { 
+            WinOrLoseCondidtion(); 
+            }
+    }
+
+        private void ExecuteEnemyAttack()
+        {
+            switch(currentBattleEnemy.newEnemy.Name)
+            {
+                case "Clanker":
+                case "Mech":
+                 if(random.Next(1,101) <= 70)
+                {
                     currentBattleEnemy.BasicAttack(player);
                 }
+                else
+                {
+                    currentBattleEnemy.SpecialAttack(player);
+                }
+                break;
 
-                Console.WriteLine("-------------------------------------------------------------------------------------------------");
+                case "Nanobot":
+                if(random.Next(1,101) <= 1)                
+                {
+                    currentBattleEnemy.BasicAttack(player);
+                }
+                else
+                {
+                    currentBattleEnemy.NanobotSpecialAttack(player, inventory);
+                }
+                break;
+
+                case "Bionic Overlord":
+                int roll = random.Next(1,101);
+
+                if(roll <= 70)                
+                {
+                    currentBattleEnemy.BasicAttack(player);
+                }
+                else if(roll <= 80)
+                {
+                    currentBattleEnemy.SpecialAttack(player);
+                }
+                else
+                {
+                    currentBattleEnemy.SkipNextTurn(player);
+                    skipPlayerNextTurn = true;
+                }
+                break;
             }
-            
-            WinOrLoseCondidtion();
-}
+        }
 
         private void WinOrLoseCondidtion()
         {
-            if (player.Health > 0)
+            if (player.Health > 0 && currentBattleEnemy.newEnemy.Health <= 0)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine(player.Name + " WON!");
@@ -151,7 +221,16 @@ namespace PracticeApp
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(player.Name + " Died! GAME OVER!");
                 Console.ResetColor();
-                Environment.Exit(0);
+                Console.WriteLine("Would you like to play again? (y/n)");
+                string playAgainInput = Console.ReadLine().ToLower();
+                if (playAgainInput == "y" || playAgainInput == "yes")
+                {
+                    StartGame();
+                }
+                else
+                {
+                    Environment.Exit(0);
+                }
             }
         }
 
@@ -228,6 +307,21 @@ namespace PracticeApp
             Console.ResetColor();
             DelayStatment(2000);
             escapeSuccess = true;
+        }
+
+        public void StartScreen()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("═══════════════════════════════════════════════════════════════");
+            Console.WriteLine("              SECTOR 7 - EXPERIMENTAL FACILITY                 ");
+            Console.WriteLine("             EMERGENCY PROTOCOL CAN YOU ESCAPE?                  ");
+            Console.WriteLine("═══════════════════════════════════════════════════════════════");
+            Console.WriteLine("\n    The emergency lights cast red shadows across the lab.");
+            Console.WriteLine("    Something has malfunctioned. Security drones are hostile.");
+            Console.WriteLine("    You must fight your way through and escape.\n");
+            Console.WriteLine("═══════════════════════════════════════════════════════════════\n");
+            Console.WriteLine("                 Do you wish to begin? (Yes/No)                ");
+            Console.ResetColor();
         }
 
     }

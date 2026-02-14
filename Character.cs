@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 
 namespace PracticeApp
 {
@@ -48,5 +49,17 @@ namespace PracticeApp
             Console.WriteLine($"{target.Name} healed for {healAmount} Health! Current Health: {target.Health}");
         }
       
+        public void DrainStamina(int amount)
+        {
+            Stamina -= amount;
+            if (Stamina < 0) Stamina = 0;
+        }
+
+        public void DrainDefence(int amount)
+        {
+            Defence -= amount;
+            if (Defence < 0) Defence = 0;
+        }
+
     }
 }

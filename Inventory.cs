@@ -6,7 +6,6 @@ namespace PracticeApp
     class Inventory
     {
         private List<Item> items;
-        private Character player;
       
         public Inventory()
         {
@@ -81,5 +80,30 @@ namespace PracticeApp
                 Console.WriteLine($"2.Resistance Potions: {resistancePotionAmmount}");
                 Console.WriteLine($"3.Stealth Potions: {stealthPotionAmmount}");
         }
+
+        public bool HasItemOfType(ItemType itemType)
+        {
+            foreach (Item item in items)
+            {
+                if (item.ItemType == itemType)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public Item GetItemByType(ItemType itemType)
+        {
+            foreach (Item item in items)
+            {
+                if (item.ItemType == itemType)
+                {
+                    return item; 
+                }
+            }
+            return null;
+        }
     }
+
 }
